@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test dom.js</title>
+    <style>
+    li{
+    	line-height: 2em;
+    }
+    .hi {
+        color: blue;
+        border: 1px solid;
+    }
+    
+    .error {
+        color: red;
+    }
+    .gray{
+    	background: gray;
+    }
+    .right{
+    	text-align: right;
+    }
+    </style>
+    <script src="../lib/dom/dom.js"></script>
+</head>
+
+<body>
+    <ul>
+        <li class="error">1</li>
+        <li class="error">2</li>
+        <li class="error">3</li>
+        <li class="error">4</li>
+    </ul>
+   	
+    <script>
+    console.assert(typeof $ === 'function')
+    let items = $('li')
+    console.assert(items.on !== undefined)
+
+    items.on('click', function() {
+        console.log('click')
+    })
+
+    console.assert(items.addClass('hi') === items)
+    items.addClass('hi').removeClass('error')
+
+    items.text('你好')
+
+    let textList = items.text() // ['你好'x4]
+
+    console.assert(items.addEventListener === undefined)
+
+    let item = items.get(0)
+
+    let $item = $(item) // array
+
+    console.assert(item.tagName === 'LI')
+    console.assert(item.addEventListener !== undefined)
+
+    console.assert(item === items[0])
+    console.assert(item.siblings === undefined)
+    console.assert($item.siblings !== undefined)
+
+    // $item 第1个 li
+    // $item.siblings() 返回它的兄弟
+
+    console.assert($item[0] === item)
+
+    let $li = $('li:nth-child(2)') // array
+    /** * li1:hi; * li2:hi; * li3:hi; * li4:hi; ↓*/
+    $li.siblings().addClass('error')
+    /** * li1:hi,error; * li2:hi; * li3:hi,error; * li4:hi,error; */
+    console.assert($li.siblings().previousSelection === $li)
+    console.assert($li.siblings().end() === $li.siblings().previousSelection)
+
+    $li.siblings().removeClass('error').end()
+       .addClass('gray')
+    /** * li1:hi; * li2:hi,gray; * li3:hi; * li4:hi; */   
+    $li3 = $('li:nth-child(3)') // array
+    $li4 = $('li:nth-child(4)')
+    $li3.addClass('gray right error')
+    $li4.addClass('gray right')
+    /** * li1:hi; * li2:hi,gray; * li3:hi,gray,right,error; * li4:hi,gray,right; */
+    $li3.removeClass('hi gray')
+    /** * li1:hi; * li2:hi,gray; * li3:right,error; * li4:hi,gray,right; */
+    console.assert(typeof item.on === 'undefined')
+    console.assert(typeof $item.on === 'function')
+
+    console.log('运行完毕')
+    
+    </script>
+
+</body>
+
+</html>
