@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test bom.js</title>
+    <script src="../lib/bom/bom.js"></script>
+</head>
+
+<body>
+<button id=geta>geta</button>
+<button id=seta>seta</button>
+<button id=mopen>open</button>
+    <script>
+        var geta = document.getElementById('geta')
+        var seta = document.getElementById('seta')
+        var mopen = document.getElementById('mopen')
+        geta.onclick=function () {
+            var r = bom.search('a')  // 1
+            console.log(r)
+        }
+        seta.onclick= function () {
+            bom.search('a', '我们')
+            console.log(window.location)
+        }
+        mopen.onclick = function () {
+            bom.openAtCenter(600,260,'bom-test2.html')
+        }
+    </script>
+</body>
+
+</html>
